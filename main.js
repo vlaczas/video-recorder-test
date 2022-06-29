@@ -11,7 +11,7 @@ let stream = null
 startBtn.onclick = () => fun()
 feature.innerText = JSON.stringify(navigator.mediaDevices.getSupportedConstraints(), null, 2)
 
-navigator.mediaDevices.getUserMedia({video: {width: {ideal: 400}, height: {ideal: 400}, frameRate: {ideal: 20}, aspectRatio: {ideal: 1}, sampleRate: {ideal: 8000}, sampleSize:{ideal: 16}, noiseSuppression: true}, audio: true}).then(st => {
+navigator.mediaDevices.getUserMedia({video: {width: {ideal: 400}, height: {ideal: 400}, frameRate: {ideal: 20}, aspectRatio: {ideal: 1}, noiseSuppression: true}, audio: {sampleRate: {ideal: 8000}, sampleSize:{ideal: 4},}}).then(st => {
   stream = st
   fun()
 })
@@ -41,6 +41,7 @@ async function fun () {
     const blob = new Blob(videoChunks, { 'type' : supportedVideo });
     const videoURL = window.URL.createObjectURL(blob);
     console.log(blob)
+    alert(blob.size / 1024 / 1024)
     preview.srcObject = null
     preview.src = videoURL;
     preview.controls = true;

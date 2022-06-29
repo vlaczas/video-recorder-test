@@ -42,5 +42,9 @@ async function fun () {
   };
 
   recorder.start();
+  setTimeout(() => {
+    recorder.stop()
+    stop.removeEventListener("click", () => recorder.stop())
+  }, 30000)
   stop.addEventListener("click", () => recorder.stop(), {once: true})
 }

@@ -31,7 +31,7 @@ async function fun () {
   if (MediaRecorder.isTypeSupported("video/mp4; codecs=avc1.4d002a")) supportedVideo = 'video/mp4; codecs=avc1.4d002a'
   if (MediaRecorder.isTypeSupported("video/webm;codecs=h264")) supportedVideo = 'video/webm;codecs=h264'
   mimetype.innerText = supportedVideo
-  let options = {bitsPerSecond: 128000};
+  let options = {videoBitsPerSecond: 250000};
   if (supportedVideo) options.mimetype = supportedVideo
   const recorder = new MediaRecorder(stream, options)
 

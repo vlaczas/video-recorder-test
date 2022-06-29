@@ -28,8 +28,8 @@ async function fun () {
   let supportedVideo;
   if (MediaRecorder.isTypeSupported("video/webm")) supportedVideo = 'video/webm'
   if (MediaRecorder.isTypeSupported("video/mp4")) supportedVideo = 'video/mp4'
-  // if (MediaRecorder.isTypeSupported("video/mp4; codecs=avc1.4d002a")) supportedVideo = 'video/mp4; codecs=avc1.4d002a'
-  // if (MediaRecorder.isTypeSupported("video/webm;codecs=h264")) supportedVideo = 'video/webm;codecs=h264'
+  if (MediaRecorder.isTypeSupported("video/mp4; codecs=avc1.4d002a")) supportedVideo = 'video/mp4; codecs=avc1.4d002a'
+  if (MediaRecorder.isTypeSupported("video/webm;codecs=h264")) supportedVideo = 'video/webm;codecs=h264'
   mimetype.innerText = supportedVideo
   let options;
   if (supportedVideo) options = {mimetype: supportedVideo}
@@ -45,7 +45,7 @@ async function fun () {
     preview.src = videoURL;
     preview.controls = true;
     download.href = videoURL;
-    const name = Date.now() + "." + supportedVideo.split("/")[1].split(';')[0]
+    const name = Date.now() + "." + supportedVideo.split("/")[1].split(';')[0] || "mp4"
     download.download = name
   };
 

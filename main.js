@@ -2,12 +2,15 @@ const startBtn = document.getElementById("start")
 const preview = document.getElementById("preview")
 const stop = document.getElementById("stop")
 const download = document.getElementById("download")
+const feature = document.getElementById("features")
+const mimetype = document.getElementById("mimetype")
 
 let videoChunks = []
 let videoUrl = ""
 let stream = null
 startBtn.onclick = () => fun()
-console.log(navigator.mediaDevices.getSupportedConstraints());
+feature.innerText = JSON.stringify(navigator.mediaDevices.getSupportedConstraints(), null, 2)
+
 navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(st => {
   stream = st
   fun()
@@ -23,7 +26,7 @@ async function fun () {
   await new Promise(resolve => preview.onplaying = resolve);
   let supportedVideo = 'video/mp4'
   if (MediaRecorder.isTypeSupported("video/webm")) supportedVideo = 'video/webm'
-
+  mimetype.innerText = supportedVideo
   const recorder = new MediaRecorder(stream, {mimeType: supportedVideo})
   console.log(recorder)
 
@@ -32,13 +35,13 @@ async function fun () {
     if (event.data.size > 0) videoChunks.push(event.data)
     const blob = new Blob(videoChunks, { 'type' : supportedVideo });
     const videoURL = window.URL.createObjectURL(blob);
+    const name = Date.now() + "." + supportedVideo.split("/")[1]
     console.log(blob)
-    console.log(preview)
     preview.srcObject = null
     preview.src = videoURL;
     preview.controls = true;
     download.href = videoURL;
-    download.download = Date.now() + ".mp4"
+    download.download = name
   };
 
   recorder.start();

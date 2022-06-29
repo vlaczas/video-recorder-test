@@ -23,24 +23,29 @@ async function fun () {
   if (videoUrl) URL.revokeObjectURL(videoUrl)
   
   preview.srcObject = stream;
+  preview.oncanplay = () => preview.play()
   await new Promise(resolve => preview.onplaying = resolve);
-  let supportedVideo = 'video/mp4'
+  let supportedVideo;
   if (MediaRecorder.isTypeSupported("video/webm")) supportedVideo = 'video/webm'
+  if (MediaRecorder.isTypeSupported("video/mp4")) supportedVideo = 'video/mp4'
+  // if (MediaRecorder.isTypeSupported("video/mp4; codecs=avc1.4d002a")) supportedVideo = 'video/mp4; codecs=avc1.4d002a'
+  // if (MediaRecorder.isTypeSupported("video/webm;codecs=h264")) supportedVideo = 'video/webm;codecs=h264'
   mimetype.innerText = supportedVideo
-  const recorder = new MediaRecorder(stream, {mimeType: supportedVideo})
-  console.log(recorder)
+  let options;
+  if (supportedVideo) options = {mimetype: supportedVideo}
+  const recorder = new MediaRecorder(stream, options)
 
   recorder.ondataavailable = (event) => {
     console.log("recorder stopped");
     if (event.data.size > 0) videoChunks.push(event.data)
     const blob = new Blob(videoChunks, { 'type' : supportedVideo });
     const videoURL = window.URL.createObjectURL(blob);
-    const name = Date.now() + "." + supportedVideo.split("/")[1]
     console.log(blob)
     preview.srcObject = null
     preview.src = videoURL;
     preview.controls = true;
     download.href = videoURL;
+    const name = Date.now() + "." + supportedVideo.split("/")[1].split(';')[0]
     download.download = name
   };
 

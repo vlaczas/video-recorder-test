@@ -11,7 +11,7 @@ let stream = null
 startBtn.onclick = () => fun()
 feature.innerText = JSON.stringify(navigator.mediaDevices.getSupportedConstraints(), null, 2)
 
-navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(st => {
+navigator.mediaDevices.getUserMedia({video: {width: {ideal: 400}, height: {ideal: 400}, noiseSuppression: true}, audio: true}).then(st => {
   stream = st
   fun()
 })

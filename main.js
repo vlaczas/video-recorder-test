@@ -41,7 +41,6 @@ async function fun () {
     const blob = new Blob(videoChunks, { 'type' : supportedVideo });
     const videoURL = window.URL.createObjectURL(blob);
     console.log(blob)
-    alert(blob.size / 1024 / 1024)
     preview.srcObject = null
     preview.src = videoURL;
     preview.controls = true;
